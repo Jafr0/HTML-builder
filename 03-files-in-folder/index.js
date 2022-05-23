@@ -20,9 +20,8 @@ function fil(input) {
 					throw new Error(err);
 				}
 				if (stats.isFile()) {
-					console.log(name, stats.size / 1000 + ' КБ');
-				} else if (stats.isDirectory()) {
-					fil(path1);
+					console.log(`${path.parse(name).name} - ${path.extname(name).split('.').pop()} - ${stats.size / 1000 + 'kb'}`);
+
 				}
 			})
 
