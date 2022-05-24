@@ -12,23 +12,17 @@ fs.mkdir(file, { recursive: true }, err => {
 });
 
 
-fs.readdir(file, (err, name) => {
-	if (err) throw err;
-	for (const i of name) {
-
-		fs.unlink(path.join(file, i), err => {
-			if (err) throw err;
-		});
-	}
-});
-
 
 
 fs.readdir(input, function (err, files) {
 	if (err) {
 		throw new Error(err);
 	}
+
 	files.forEach(function (name) {
+		fs.unlink(path.join(file, name), err => {
+			if (err) throw err;
+		});
 		let source = path.join(input, name);
 		let output = path.join(file, name);
 
