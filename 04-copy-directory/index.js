@@ -12,25 +12,24 @@ fs.mkdir(file, { recursive: true }, err => {
 });
 
 
+async function copyAssets(input, file) {
+
+	await fs.promises.rm(file, { force: true, recursive: true });
+	await fs.promises.mkdir(file, { recursive: true });
+
+	let files = await fs.promises.readdir(input, { withFileTypes: true });
+
+	for (let i = 0; i < files.length; i++) {
+
+		let ass1 = path.join(input, files[i].name);
+		let assCopy = path.join(file, files[i].name);
 
 
-fs.readdir(input, function (err, files) {
-	if (err) {
-		throw new Error(err);
+		await fs.promises.copyFile(ass1, assCopy);
+		console.log(`Файл ${files[i].name} успешно скопирован`)
+
 	}
+}
 
-	files.forEach(function (name) {
-		fs.unlink(path.join(file, name), err => {
-			if (err) throw err;
-		});
-		let source = path.join(input, name);
-		let output = path.join(file, name);
+copyAssets(input, file);
 
-		fs.copyFile(source, output, err => {
-			if (err) throw err;
-			console.log(`Файл ${name} успешно скопирован`);
-		})
-
-	})
-
-})
